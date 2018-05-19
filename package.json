@@ -1,0 +1,33 @@
+{
+  "name": "interest",
+  "version": "1.0.0",
+  "description": "Efforts!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "dev": "egg-bin dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ouhuang/interest.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ouhuang/interest/issues"
+  },
+  "homepage": "https://github.com/Ouhuang/interest#readme",
+  "dependencies": {
+    "egg": "^2.8.1",
+    "glob": "3.2.9",
+    "minimatch": "~0.2.14",
+    "moment": "^2.19.1",
+    "node-xlsx": "^0.11.0",
+    "xlsx": "^0.11.6"
+  },
+  "devDependencies": {
+    "egg-bin": "^4.7.0",
+    "express": "^4.16.3"
+  }
+}
