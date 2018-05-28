@@ -1,4 +1,9 @@
-module.exports = app => {
-    const { router, controller } = app;
-    router.get('/', controller.home.index);
-};
+const express = require('express');
+const router = express.Router();
+
+const controller = require('./controller')
+
+router.post('/login', controller.login)
+router.post('/register', controller.register)
+
+module.exports = router;
