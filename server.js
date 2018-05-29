@@ -1,13 +1,13 @@
 const express = require("express");
+const bodyParser = require('body-parser');
 
 const app = express();
+const webRouter = require('./app/router')
 
-app.use(express.static('./app/public')); //静态资源目录
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/emm/*', (req, res) => {
-    console.log(req, res)
-    res.send()
-})
+app.use('/', webRouter);
 
 app.listen(8080, () =>
-    console.log('启动服务'))
+    console.log('启动服务 8080'));
