@@ -13,7 +13,8 @@ const reg = async (req, res) => {
     var adduser = await User.addUser(req.body)
 
     res.json({
-        data: adduser
+        type: true,
+        msg: adduser
     })
 }
 
