@@ -43,11 +43,9 @@ const crawler = async (req, res) => {
 
 
 
-const crawlerChild = async (text, title) => {
-    console.log(text)
-
+const crawlerChild = (text, title) => {
     return '\r\n' + title + '\r\n' +
-        text.match(/<br>([\D\d]*?)<\/div>/g).replace(/(<br>)|(<\/div>)/g, '')
+        text.match(/<br>([\D\d]*?)<\/div>/g)[0].replace(/(<br>)|(<\/div>)/g, '')
             .replace(/<br \/>/g, '\r\n').replace(/&nbsp;/g, ' ') +
         '\r\n';
 }
