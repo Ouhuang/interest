@@ -31,11 +31,11 @@ const crawler = async (req, res) => {
 
     let send = await Promise.all(urlList.map(v => superagent.get(v.url).charset('gb2312')));
 
-    let data = send.map((v, k) => crawlerChild(v, urlList[k]));
+    let data = send.map((v, k) => crawlerChild(v.text, urlList[k]));
 
     var path = Path.resolve(__dirname, '../../public/txt/test.txt');
 
-    fs.writeFile(path, data, 'utf8', (err, fd) => {
+    fs.writeFile(path, data.join('\r\n'), 'utf8', (err, fd) => {
         if (err) throw err;
         res.send(`<a href="${path} download="超级神基因.txt">点击下载</a>`)
     })
@@ -44,6 +44,8 @@ const crawler = async (req, res) => {
 
 
 const crawlerChild = async (text, title) => {
+    console.log(text)
+
     return '\r\n' + title + '\r\n' +
         text.match(/<br>([\D\d]*?)<\/div>/g).replace(/(<br>)|(<\/div>)/g, '')
             .replace(/<br \/>/g, '\r\n').replace(/&nbsp;/g, ' ') +
