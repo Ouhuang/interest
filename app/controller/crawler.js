@@ -29,10 +29,10 @@ const crawler = async (req, res) => {
         })
     })
 
-    let send = await Promise.all(urlList.map(v => superagent.get(v.url).charset('gb2312')));
+    let send = await Promise.all(urlList.slice(0, 5).map(v => superagent.get(v.url).charset('gb2312')));
 
-    let data = send.map((v, k) => crawlerChild(v.text, urlList[k]));
-
+    let data = send.map((v, k) => crawlerChild(v, urlList[k]));
+    console.log(data)
     var path = Path.resolve(__dirname, '../../public/txt/test.txt');
 
     fs.writeFile(path, data.join('\r\n'), 'utf8', (err, fd) => {
@@ -43,11 +43,10 @@ const crawler = async (req, res) => {
 
 
 
-const crawlerChild = (text, title) => {
-    return '\r\n' + title + '\r\n' +
-        text.match(/<br>([\D\d]*?)<\/div>/g)[0].replace(/(<br>)|(<\/div>)/g, '')
-            .replace(/<br \/>/g, '\r\n').replace(/&nbsp;/g, ' ') +
-        '\r\n';
+const crawlerChild = ({ text }, { title }) => {
+    text = text.replace(/<br>/g, '<div class="mytext">');
+    const $ = cheerio.load(text);
+    return $('.mytext').text()
 }
 
 
