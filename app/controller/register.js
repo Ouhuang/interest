@@ -2,20 +2,20 @@ const User = require("../service/user")
 
 
 const reg = async (req, res) => {
-    var docs = await User.getLoginName(req.body.userName);
+    var docs = await User.getLoginName(req.body.loginName);
 
-    if (docs !== null)
+    if (docs.length)
         return res.json({
             msg: '账号重复',
             type: false
         })
 
-    var adduser = await User.addUser(req.body)
+    var { check, type } = await User.addUser(req.body);
 
     res.json({
-        type: true,
-        msg: adduser
+        type: !type,
+        msg: check
     })
 }
 
-module.exports = (req, res) => reg(req, res)
+module.exports = (req, res) => reg(req, res);
