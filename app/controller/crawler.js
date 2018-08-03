@@ -13,12 +13,11 @@ const URL = require('url');
 const Path = require('path');
 
 
-let piaotianUrl = 'https://www.piaotian.com/html/8/8410/';
+let piaotianUrl = 'https://www.piaotian.com/html/3/3155/';
 let urlList = [];
 const crawler = async (req, res) => {
     const { text } = await superagent.get(piaotianUrl).charset('gbk');
     const $ = cheerio.load(text);
-
 
     $('.centent a').each((k, e) => {
         let $e = $(e)
@@ -29,7 +28,7 @@ const crawler = async (req, res) => {
         })
     })
 
-    let send = await Promise.all(urlList.slice(0, 5).map(v => superagent.get(v.url).charset('gb2312')));
+    let send = await Promise.all(urlList.slice(4).map(v => superagent.get(v.url).charset('gb2312')));
 
     let data = send.map((v, k) => crawlerChild(v, urlList[k]));
     console.log(data)
@@ -37,7 +36,7 @@ const crawler = async (req, res) => {
 
     fs.writeFile(path, data.join('\r\n'), 'utf8', (err, fd) => {
         if (err) throw err;
-        res.send(`<a href="${path} download="超级神基因.txt">点击下载</a>`)
+        res.send(`<a href="${path} download="雪中悍刀行.txt">点击下载</a>`)
     })
 }
 
