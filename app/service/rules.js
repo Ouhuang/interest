@@ -27,6 +27,7 @@ exports.checkUser = ({ user, account, password, email }) => {
         if (email === true) break email;
         let reg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
         if (!reg.test(email)) return '邮箱格式错误';
+
     } else return '邮箱不能为空'
 
     return false

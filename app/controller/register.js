@@ -2,7 +2,7 @@ const User = require("../service/user")
 
 
 const reg = async (req, res) => {
-    var docs = await User.getLoginName(req.body.loginName);
+    const docs = await User.getLoginName(req.body.loginName);
 
     if (docs.length)
         return res.json({
@@ -10,7 +10,7 @@ const reg = async (req, res) => {
             type: false
         })
 
-    var { check, type } = await User.addUser(req.body);
+    const { check, type } = await User.addUser(req.body);
 
     res.json({
         type: !type,

@@ -25,7 +25,6 @@ exports.getLoginName = (name) => {
 }
 exports.addUser = ({ userName, loginName, passWord, email }) => {
 
-
     return new Promise((res, rej) => {
         const check = checkUser({
             user: userName,
