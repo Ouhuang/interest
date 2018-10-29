@@ -13,12 +13,11 @@ const URL = require('url');
 const Path = require('path');
 
 
-let piaotianUrl = 'https://www.piaotian.com/html/8/8410/';
+let piaotianUrl = 'https://www.piaotian.com/html/3/3155/';
 let urlList = [];
 const crawler = async (req, res) => {
     const { text } = await superagent.get(piaotianUrl).charset('gbk');
     const $ = cheerio.load(text);
-
 
     $('.centent a').each((k, e) => {
         let $e = $(e)
@@ -28,25 +27,22 @@ const crawler = async (req, res) => {
             url: val
         })
     })
-
-    let send = await Promise.all(urlList.slice(0, 5).map(v => superagent.get(v.url).charset('gb2312')));
+    urlList = urlList.slice(4)
+    let send = await Promise.all(urlList.map(v => superagent.get(v.url).charset('gb2312')));
 
     let data = send.map((v, k) => crawlerChild(v, urlList[k]));
-    console.log(data)
     var path = Path.resolve(__dirname, '../../public/txt/test.txt');
 
     fs.writeFile(path, data.join('\r\n'), 'utf8', (err, fd) => {
         if (err) throw err;
-        res.send(`<a href="${path} download="超级神基因.txt">点击下载</a>`)
+        res.send(`<a href="${path} download="雪中悍刀行.txt">点击下载</a>`)
     })
 }
-
-
 
 const crawlerChild = ({ text }, { title }) => {
     text = text.replace(/<br>/g, '<div class="mytext">');
     const $ = cheerio.load(text);
-    return $('.mytext').text()
+    return title + '\r\n ' + $('.mytext').text()
 }
 
 
