@@ -18,4 +18,4 @@ const reg = async (req, res) => {
     })
 }
 
-module.exports = (req, res) => reg(req, res)
+module.exports = (req, res) => reg(req, res);
