@@ -10,7 +10,10 @@ const reg = async (req, res) => {
             type: false
         })
 
-    const { check, type } = await User.addUser(req.body);
+    const {
+        check,
+        type
+    } = await User.addUser(req.body);
 
     res.json({
         type: !type,
