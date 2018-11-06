@@ -37,18 +37,20 @@ module.exports = (req, res) => {
         })
 
         //生成 access token
-        const secrets = refresh_token.split('.')[2] + secret
+        const secrets = Buffer.from(refresh_token + secret).toString('hex');
+
         const access_token = jwt.sign({
             user_name: Username
         }, secrets, {
             expiresIn: Math.floor(Date.now() / 1000) + 60 * 60 //一小时
         })
 
-
-        res.header('Authorization', JSON.stringify({
+        let token = JSON.stringify({
             refresh_token,
             access_token
-        }))
+        })
+
+        res.header('Authorization', Buffer.from(token).toString('base64'))
 
         res.send({
             err: false,

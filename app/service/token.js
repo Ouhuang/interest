@@ -8,7 +8,6 @@ module.exports = (req, res, next) => {
         return next();
 
     const Authorization = req.headers.Authorization;
-    console.log(Authorization)
 }
 
 
