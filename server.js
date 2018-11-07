@@ -7,14 +7,16 @@ const https = require('https')
 
 const app = express();
 const webRouter = require('./app/router')
-const token = require('./app/service/token')
+const {
+    middleware
+} = require('./app/service/token')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use('/', token, webRouter);
+app.use('/', middleware, webRouter);
 
 
 const server = os.platform() === 'linux' ? https.createServer({

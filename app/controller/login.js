@@ -2,8 +2,9 @@ const jwt = require('jsonwebtoken')
 const fs = require('fs')
 
 const {
-    secret
+    setAccessToken
 } = require('../service/token')
+
 const {
     User
 } = require('../models')
@@ -26,7 +27,6 @@ module.exports = (req, res) => {
                 msg: '用户名或密码错误'
             })
 
-
         //生成 refresh token 
         const private = fs.readFileSync('public/rsa/private.key');
         const refresh_token = jwt.sign({
@@ -37,13 +37,7 @@ module.exports = (req, res) => {
         })
 
         //生成 access token
-        const secrets = Buffer.from(refresh_token + secret).toString('hex');
-
-        const access_token = jwt.sign({
-            user_name: Username
-        }, secrets, {
-            expiresIn: Math.floor(Date.now() / 1000) + 60 * 60 //一小时
-        })
+        const access_token = setAccessToken(refresh_token, Username);
 
         let token = JSON.stringify({
             refresh_token,
