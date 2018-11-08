@@ -4,7 +4,9 @@ const fs = require('fs')
 const {
     setAccessToken
 } = require('../service/token')
-
+const {
+    returnTem
+} = require('../utils/util')
 const {
     User
 } = require('../models')
@@ -44,11 +46,17 @@ module.exports = (req, res) => {
             access_token
         })
 
-        res.header('Authorization', Buffer.from(token).toString('base64'))
+        res.header('Authorization', Buffer.from(token).toString('base64'));
 
-        res.send({
-            err: false,
-            msg: '登陆成功'
-        })
+        [data] = data;
+        res.send(returnTem({
+            msg: '登录成功',
+            data: {
+                _id: data._id,
+                email: data.email,
+                name: data.user_name,
+                userName: data.login_name
+            }
+        }))
     })
 }

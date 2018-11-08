@@ -22,29 +22,44 @@ const verifyToken = (token, type) => {
     let secretKey;
 
     try {
-        token = JSON.parse(token)
+        token = JSON.parse(token);
     } catch (e) {
-        return e;
+        return {
+            type: false,
+            errCode: 0,
+            message: 'token error'
+        };
     }
-    if (!type)
+
+    if (!type) {
         secretKey = Buffer.from(token.refresh_token + secret).toString('hex');
-    else
+        token = token.access_token
+    } else {
         secretKey = fs.readFileSync('../../public/rsa/public.key')
+        token = token.refresh_token
+    }
 
     return jwt.verify(token, secretKey, (err, data) => {
-        if (err)
-            return err
-        return data;
+        if (err) {
+            return {
+                ...err,
+                type: false,
+                errCode: err.expiresAt ? 1 : 2,
+            }
+        }
+        return {
+            type: true,
+            data
+        };
     })
 }
-
 
 
 exports.setAccessToken = setAccessToken;
 exports.verifyToken = verifyToken;
 exports.secret = secret;
 
-exports.middleware = (req, res, next) => {
+exports.tokenMid = (req, res, next) => {
     if (req.path === '/login')
         return next();
 
@@ -55,8 +70,9 @@ exports.middleware = (req, res, next) => {
         msg: '请登录后尝试'
     })) //如果token不存在
 
-    let data = verifyToken(Authorization)
-    res.send(returnTem({
-        data
-    }))
+    let token = verifyToken(Authorization)
+
+    if (!token.type) return res.send(token);
+
+    next();
 }
