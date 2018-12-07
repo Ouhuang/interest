@@ -7,9 +7,7 @@ const {
 const {
     returnTem
 } = require('../utils/util')
-const {
-    User
-} = require('../models')
+const { User } = require('../models')
 
 module.exports = (req, res) => {
     const {
@@ -34,9 +32,9 @@ module.exports = (req, res) => {
         const refresh_token = jwt.sign({
             iss: 'emm',
         }, private, {
-            algorithm: 'RS256',
-            expiresIn: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30 //一月
-        })
+                algorithm: 'RS256',
+                expiresIn: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30 //一月
+            })
 
         //生成 access token
         const access_token = setAccessToken(refresh_token, Username);

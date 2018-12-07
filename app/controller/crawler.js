@@ -7,8 +7,6 @@ const superagent = require('superagent');
 require('superagent-charset')(superagent)
 const cheerio = require('cheerio');
 const fs = require('fs');
-
-
 const URL = require('url');
 const Path = require('path');
 
@@ -44,9 +42,5 @@ const crawlerChild = ({ text }, { title }) => {
     const $ = cheerio.load(text);
     return title + '\r\n ' + $('.mytext').text()
 }
-
-
-
-
 
 module.exports = (req, res) => crawler(req, res)
